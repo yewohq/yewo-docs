@@ -1,0 +1,28 @@
+---
+title: Overview
+description: What Yewo Cloud adds on top of the CLI.
+---
+
+Yewo Cloud runs journeys on hosted devices and keeps the results across builds, so
+a team can review findings in one place instead of reading report files from each
+developer's machine.
+
+<Callout type="warn">
+  Yewo Cloud is in development and these pages are still being written. The [CLI
+  documentation](/docs/cli) is complete and covers everything Yewo can do today on a local emulator
+  or simulator.
+</Callout>
+
+## Relationship to the CLI
+
+The CLI is the whole product on its own. It drives a local emulator or simulator,
+audits the evidence, and writes `run.json`, an HTML report, a Markdown summary, and
+a JUnit file to disk. Everything described in the [CLI docs](/docs/cli) works
+without an account.
+
+Cloud does not replace any of that. It takes the same journeys from the same
+`yewo.yaml` and adds hosted devices, history across builds, and shared review.
+
+## Staying informed
+
+The waitlist and current status live at [tryyewo.dev](https://tryyewo.dev).

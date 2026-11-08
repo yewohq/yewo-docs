@@ -1,0 +1,80 @@
+---
+title: Quick start
+description: Install Yewo, prepare a project, and run your first goal.
+---
+
+## Requirements
+
+You need Python 3.12+, a Node.js runtime compatible with Appium, and the SDK for
+the platform you want to test:
+
+- Android Studio and the Android SDK for Android.
+- Xcode and its command-line tools for iOS on macOS.
+
+Yewo runs on macOS, Linux, and Windows. Apple device tooling exists only on
+macOS, so iOS testing requires a macOS host:
+
+| Host    | Android   | iOS           |
+| ------- | --------- | ------------- |
+| macOS   | Supported | Supported     |
+| Linux   | Supported | Not available |
+| Windows | Supported | Not available |
+
+## Install
+
+Install Yewo from [PyPI](https://pypi.org/project/yewo/) with
+[uv](https://docs.astral.sh/uv/):
+
+```bash
+uv tool install yewo
+```
+
+If you prefer an existing virtual environment, use `python -m pip install yewo`
+instead. You only need to clone the repository when contributing to Yewo itself.
+
+## Prepare a project
+
+From the app project you want to test, create a starter configuration and prepare
+Appium for one platform:
+
+```bash
+yewo setup --platform android
+```
+
+Use `--platform ios` for an iOS project. Setup previews each required change and
+asks before creating files or installing tools. It does not overwrite an existing
+`yewo.yaml`.
+
+<Callout>
+  Run `yewo setup --dry-run --platform android` to inspect the plan without changing anything.
+</Callout>
+
+## Add credentials
+
+Add the credentials required by the models in `yewo.yaml` to the generated `.env`
+file or to your shell environment. The starter configuration uses OpenRouter:
+
+```dotenv title=".env"
+OPENROUTER_API_KEY=your_key_here
+```
+
+## Check the environment
+
+```bash
+yewo doctor
+```
+
+`yewo doctor` checks the project and host environment and explains failures.
+
+## Run one goal
+
+Settings come from the nearest `yewo.yaml`, and command-line options can override
+its app, device, platform, model, output directory, and execution limits:
+
+```bash
+yewo run "Open the app and sign in" --app-path path/to/app.apk
+```
+
+Use `yewo run` for one goal. Use [`yewo test`](/docs/cli/journey-tests) when a
+declared journey must produce generated scenarios, independent verdicts, and
+reusable reports.

@@ -1,0 +1,13 @@
+{
+  "title": "CLI",
+  "root": true,
+  "pages": [
+    "index",
+    "quick-start",
+    "journey-tests",
+    "how-it-works",
+    "verdicts",
+    "commands",
+    "configuration"
+  ]
+}

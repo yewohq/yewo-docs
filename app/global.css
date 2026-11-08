@@ -1,0 +1,108 @@
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/neutral.css';
+@import 'fumadocs-ui/css/preset.css';
+
+/* Yewo design tokens, transcribed from yewo-apps/yewo-site/app/globals.css.
+   Light is the paper/sand variant the public surfaces use, so the docs read as
+   a continuation of tryyewo.dev rather than of the in-app neutral theme. */
+
+:root {
+  --bg: #f8f2e4;
+  --surface: #fffcf4;
+  --tint: #efe3c8;
+  --primary: #2f3a2b;
+  --on-primary: #efe3c8;
+  --text: #2f3a2b;
+  --muted: #56664c;
+  --line: #e4d9be;
+  --line-strong: #c9bfa4;
+  --code: #1e261c;
+  --code-fg: #efe3c8;
+  --code-muted: #a9b39c;
+  --chip: #e8e6d2;
+  --accent-text: #a35a30;
+  --pass-strong: #2e5a12;
+  --fail-strong: #8a2222;
+  --warn-text: #7a4a06;
+
+  /* Fixed brand accent — identical in every theme. */
+  --clay: #c9784a;
+}
+
+.dark {
+  --bg: #111111;
+  --surface: #1a1a1a;
+  --tint: #242424;
+  --primary: #efe3c8;
+  --on-primary: #111111;
+  --text: #f2efe8;
+  --muted: #a3a3a3;
+  --line: #2a2a2a;
+  --line-strong: #3d3d3d;
+  --code: #0a0a0a;
+  --code-fg: #f2efe8;
+  --code-muted: #8a8a8a;
+  --chip: #2a2a2a;
+  --accent-text: #e0956a;
+  --pass-strong: #8fc46a;
+  --fail-strong: #e07a7a;
+  --warn-text: #f6d9a0;
+}
+
+/* Fumadocs' token contract aliased onto the Yewo palette, so every Fumadocs UI
+   component renders in Yewo's colours with no per-component overrides. The full
+   contract is node_modules/fumadocs-ui/css/lib/default-colors.css; every name
+   it defines is reassigned here or inherited deliberately. */
+
+:root,
+.dark {
+  --color-fd-background: var(--bg);
+  --color-fd-foreground: var(--text);
+  --color-fd-muted: var(--tint);
+  --color-fd-muted-foreground: var(--muted);
+  --color-fd-popover: var(--surface);
+  --color-fd-popover-foreground: var(--text);
+  --color-fd-card: var(--surface);
+  --color-fd-card-foreground: var(--text);
+  --color-fd-border: var(--line);
+  --color-fd-primary: var(--primary);
+  --color-fd-primary-foreground: var(--on-primary);
+  --color-fd-secondary: var(--tint);
+  --color-fd-secondary-foreground: var(--text);
+  --color-fd-accent: var(--chip);
+  --color-fd-accent-foreground: var(--text);
+  --color-fd-ring: var(--clay);
+
+  /* Callout and verdict colours come from the run-outcome tokens, so a `failed`
+     verdict in prose matches a `failed` row in the app. Yewo's palette has no
+     blue, so `info` and `idea` draw from the clay accent instead. */
+  --color-fd-success: var(--pass-strong);
+  --color-fd-error: var(--fail-strong);
+  --color-fd-warning: var(--warn-text);
+  --color-fd-info: var(--accent-text);
+  --color-fd-idea: var(--clay);
+}
+
+#nd-sidebar {
+  --color-fd-card: var(--bg);
+}
+
+@theme inline {
+  --font-sans: var(--font-funnel-sans), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  /* Controls are 10px, panels 14px — matching yewo-site. */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+html > body[data-scroll-locked] {
+  margin-right: 0px !important;
+  --removed-body-scroll-bar-size: 0px !important;
+}

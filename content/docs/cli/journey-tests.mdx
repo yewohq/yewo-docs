@@ -1,0 +1,63 @@
+---
+title: Run journey tests
+description: Declare journeys in yewo.yaml and run them with yewo test.
+---
+
+## Declare a journey
+
+Create `yewo.yaml` in the app project. A minimal Android project looks like this:
+
+```yaml title="yewo.yaml"
+device:
+  name: Pixel_8
+  platform: android
+
+app: build/app-release.apk
+
+model: openrouter/deepseek/deepseek-v4.1-flash
+
+grounder:
+  model: openrouter/bytedance/ui-tars-1.5-7b
+  protocol: source_pixels
+
+workflows:
+  smoke:
+    journeys:
+      - id: sign_in
+        name: Sign in
+        journey: |
+          Open the app, sign in with the test account, and open Settings.
+```
+
+## Run
+
+Run every workflow and target declared by the nearest `yewo.yaml`:
+
+```bash
+yewo test
+```
+
+Select workflows or targets with comma-separated identifiers:
+
+```bash
+yewo test --workflow smoke
+yewo test --target pixel,ios_simulator
+```
+
+Each selected journey-target pair gets its own device session. Yewo discovers the
+journey, records reusable app knowledge, generates scenarios grounded in that
+evidence, executes them, and audits each scenario independently.
+
+## Output
+
+Each run stores its output under `assets/yewo/<run-id>/` by default. A completed
+journey test includes:
+
+| File                  | Contents                                   |
+| --------------------- | ------------------------------------------ |
+| `reports/run.json`    | The canonical machine-readable run record. |
+| `reports/report.html` | An interactive report.                     |
+| `reports/report.md`   | A Markdown summary.                        |
+| `reports/junit.xml`   | A CI-compatible test report.               |
+
+Set `output_dir` in `yewo.yaml` to replace `assets/yewo` with another output root.

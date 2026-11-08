@@ -1,0 +1,29 @@
+---
+title: How Yewo works
+description: The discover, generate, execute, audit pipeline.
+---
+
+```text
+journey -> discover -> generate scenarios -> execute -> audit -> report
+```
+
+## Discovery
+
+During discovery, Yewo analyzes screenshots with a configured visual model, asks a
+planner for the next action, grounds visual targets, validates the action, and acts
+through Appium. It records verified app knowledge and compiles a reusable procedure
+for the journey.
+
+## Generation and execution
+
+For a journey test, Yewo generates scenarios only after discovery provides the
+required evidence. Each scenario is executed from declared preconditions.
+
+## Audit
+
+A separate auditor evaluates the captured evidence against the expected outcomes.
+
+<Callout type="info">
+  Only visible or measured evidence can prove an outcome. A planner's claim of completion is not
+  sufficient evidence for a passing verdict.
+</Callout>

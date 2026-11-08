@@ -1,0 +1,24 @@
+---
+title: Project configuration
+description: How Yewo resolves yewo.yaml and what it can declare.
+---
+
+Yewo finds the nearest `yewo.yaml` at or above the current directory. Settings can
+be declared for the whole project or overridden by a workflow or target.
+
+The configuration supports multiple workflows, journeys, target devices, declared
+values and secrets, security rules, coverage categories, actors, preconditions,
+model roles, execution budgets, and artifact settings.
+
+## Precedence
+
+1. Command-line options.
+2. Target-level settings.
+3. Workflow-level settings.
+4. Project-level settings in `yewo.yaml`.
+
+## Complete contract
+
+See the
+[Yewo configuration schema](https://github.com/yewohq/yewo/blob/master/yewo-schema.json)
+for the complete public configuration contract.

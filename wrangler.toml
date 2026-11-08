@@ -1,0 +1,13 @@
+name = "yewo-docs"
+compatibility_date = "2026-10-29"
+
+# Assets-only: a static export with no server behaviour, so there is no Worker
+# script to run in front of it. yewo-site needs one for its campaign redirects;
+# this does not.
+[assets]
+directory = "./out"
+not_found_handling = "404-page"
+
+[[routes]]
+pattern = "docs.tryyewo.dev"
+custom_domain = true
