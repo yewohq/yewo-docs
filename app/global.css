@@ -88,8 +88,10 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-funnel-sans), system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  /* The -ext faces carry the latin-ext range. A glyph outside the latin
+     subset falls through to them before it reaches a system font. */
+  --font-sans: var(--font-funnel-sans), var(--font-funnel-sans-ext), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), var(--font-jetbrains-mono-ext), ui-monospace, monospace;
 
   /* Controls are 10px, panels 14px — matching yewo-site. */
   --radius-sm: 6px;
