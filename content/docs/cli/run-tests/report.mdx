@@ -1,0 +1,85 @@
+---
+title: Read a test report
+description: Find out what happened in a run, and why a scenario got the verdict it did.
+---
+
+Every journey test writes a report bundle under the run directory:
+
+```text
+assets/yewo/<run-id>/reports/
+  report.html    read this first
+  report.md      the same content as text
+  junit.xml      for a CI test reporter
+  run.json       the full record, for scripts
+```
+
+Open `report.html` in a browser.
+
+## 1. Read the header
+
+The top of the report tells you the outcome in five lines:
+
+```text
+Run:          b89a3d32e4794dd0a732c4b617ea407b
+QA verdict:   FAILED
+Completeness: partial
+Terminal:     application_failure at execution
+Reason:       Independent scenario audit found an unmet QA obligation.
+Duration:     1586.49s
+```
+
+**QA verdict** answers "did the app do what the journey said". **Terminal** answers
+"did the run finish". Read both. A run can finish and still fail, and a run can
+stop early with no verdict at all.
+
+**Completeness** says how much of the intended work produced evidence. `partial`
+means some of it did not.
+
+## 2. Find the scenario that failed
+
+Each scenario gets its own section, headed by its verdict:
+
+```text
+### FAILED — Food Delivery Card Checkout Journey: accepted route
+```
+
+Under it sits a table of expected outcomes. This table is where the verdict comes
+from:
+
+| Result       | Meaning                                      |
+| ------------ | -------------------------------------------- |
+| `satisfied`  | The evidence proved this outcome.            |
+| `unmet`      | The evidence contradicted this outcome.      |
+| `unverified` | The evidence could not settle it either way. |
+
+One `unmet` outcome makes the scenario `FAILED`. Read the `Reason` column on that
+row to learn what Yewo saw:
+
+```text
+Required content must remain observable in the tested state.
+  unmet — The supplied screenshots display a visible red RUNTIME ERROR
+  diagnostic banner across the app screens.
+```
+
+<Callout type="warn">
+  `unverified` is not a failure of your app. It means Yewo could not gather the evidence it needed,
+  usually because a budget ran out. Fix the run before you read anything into that row.
+</Callout>
+
+## 3. Check what the run cost
+
+The report ends with model usage: the number of calls, prompt and completion
+tokens, cached tokens, and total cost. A per-call table below it shows the role,
+model, and cost of every call.
+
+Read this when a run costs more than you expect. The role column shows which job
+spent the money.
+
+## Use the other files
+
+- `junit.xml` feeds a CI test reporter. It carries `yewo.run_id`,
+  `yewo.qa_verdict`, `yewo.completeness`, and `yewo.terminal_category` as
+  properties.
+- `run.json` holds the complete record, including every scenario, the evidence
+  behind each outcome, and per-call usage. Read it from a script when you want
+  more than the report shows.

@@ -1,0 +1,20 @@
+---
+title: Read the verdicts
+description: What each verdict means and which ones assign blame to the app.
+---
+
+| Verdict      | Meaning                                                          |
+| ------------ | ---------------------------------------------------------------- |
+| `passed`     | Independent evidence proved every expected outcome.              |
+| `failed`     | The evidence contradicted at least one expected outcome.         |
+| `unverified` | Execution did not provide enough evidence for a pass or failure. |
+| `error`      | A capability, device, model provider, or Yewo failed.            |
+| `aborted`    | The run stopped before a verdict was possible.                   |
+
+Only `passed` is a verified success. Only `failed` assigns the failure to the
+application.
+
+Some conditions stop a scenario before the evidence can settle the question. An
+unsupported capability, insufficient discovery, a policy block, and an exhausted
+budget all do this. Yewo records each one as an execution classification and
+returns `unverified`. It never reports a false pass.

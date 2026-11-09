@@ -1,0 +1,5 @@
+{
+  "title": "Configure",
+  "defaultOpen": true,
+  "pages": ["project", "secrets", "limits"]
+}

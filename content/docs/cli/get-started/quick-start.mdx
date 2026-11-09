@@ -51,12 +51,21 @@ asks before creating files or installing tools. It does not overwrite an existin
 
 ## Add credentials
 
-Add the credentials required by the models in `yewo.yaml` to the generated `.env`
-file or to your shell environment. The starter configuration uses OpenRouter:
+`yewo.yaml` configures two kinds of model. A semantic model reads the screen. A
+grounder returns screen coordinates. Each one names a provider.
+
+Add a credential for every provider your `yewo.yaml` names. Put the values in the
+generated `.env` file or in your shell environment:
 
 ```dotenv title=".env"
-OPENROUTER_API_KEY=your_key_here
+<PROVIDER>_API_KEY=your_key_here
 ```
+
+Yewo checks these credentials before it starts any device work. A missing
+credential stops the run, and the error names the variable it wanted.
+
+[Choose your models](/docs/cli/get-started/models) covers which providers you need, and why
+one provider sometimes needs only one key.
 
 ## Check the environment
 
@@ -75,6 +84,6 @@ its app, device, platform, model, output directory, and execution limits:
 yewo run "Open the app and sign in" --app-path path/to/app.apk
 ```
 
-Use `yewo run` for one goal. Use [`yewo test`](/docs/cli/journey-tests) when a
+Use `yewo run` for one goal. Use [`yewo test`](/docs/cli/run-tests/journey-tests) when a
 declared journey must produce generated scenarios, independent verdicts, and
 reusable reports.

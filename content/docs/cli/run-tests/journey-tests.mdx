@@ -14,10 +14,10 @@ device:
 
 app: build/app-release.apk
 
-model: openrouter/deepseek/deepseek-v4.1-flash
+model: <provider>/<semantic-model>
 
 grounder:
-  model: openrouter/bytedance/ui-tars-1.5-7b
+  model: <provider>/<grounding-model>
   protocol: source_pixels
 
 workflows:
@@ -28,6 +28,9 @@ workflows:
         journey: |
           Open the app, sign in with the test account, and open Settings.
 ```
+
+See [Choose your models](/docs/cli/get-started/models) for the two model settings and the
+credentials they need.
 
 ## Run
 
@@ -43,6 +46,25 @@ Select workflows or targets with comma-separated identifiers:
 yewo test --workflow smoke
 yewo test --target pixel,ios_simulator
 ```
+
+## Test on more than one device
+
+Declare each device you want under `targets`. Give every target an `id`, which is
+the name you pass to `--target` and the name that appears in reports:
+
+```yaml title="yewo.yaml"
+targets:
+  - id: pixel
+    platform: android
+    device: Pixel_8
+  - id: ios_simulator
+    platform: ios
+    device: iPhone 17 Pro
+    app: build/ios/iphonesimulator/Runner.app
+```
+
+A target runs the workflow app unless you give it its own `app`. Yewo runs the
+targets in order, and each journey-target pair gets its own device session.
 
 Each selected journey-target pair gets its own device session. Yewo discovers the
 journey, records reusable app knowledge, generates scenarios grounded in that

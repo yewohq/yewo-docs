@@ -1,0 +1,64 @@
+---
+title: Limit a run
+description: Cap how many steps a run takes and how long it lasts.
+---
+
+A journey test drives a real app with real model calls. Without a cap, a journey
+that goes wrong keeps going. Set the caps in `yewo.yaml`:
+
+```yaml title="yewo.yaml"
+max_steps: 60
+max_duration_seconds: 900
+```
+
+`max_steps` accepts 1 to 500, and defaults to 100 when you leave it out.
+`max_duration_seconds` accepts up to 14400, which is four hours.
+
+## What happens at the cap
+
+Yewo stops and reports `budget_exhausted`. Every scenario it had not finished
+gets the verdict `unverified`:
+
+```text
+QA verdict:   UNVERIFIED
+Completeness: partial
+Terminal:     budget_exhausted at execution
+```
+
+This is the point of the caps. A run that ran out of budget did not prove your
+app works, and it did not prove your app is broken. Yewo reports neither.
+
+`yewo test` exits non-zero, so a capped run still fails a build.
+
+<Callout type="warn">
+  Raise the cap when you see `budget_exhausted`. Do not read `unverified` as a passing result.
+</Callout>
+
+## Set the cap for one workflow
+
+Caps follow the same precedence as every other setting. Declare a cap on a
+workflow or a target to override the project value:
+
+```yaml title="yewo.yaml"
+max_steps: 60
+
+workflows:
+  deep_checkout:
+    max_steps: 200
+```
+
+## Override from the command line
+
+`yewo run` accepts the caps as flags:
+
+```bash
+yewo run "Open the app and sign in" --max-steps 40 --settle-time 1
+```
+
+`yewo test` takes no cap flags. Set the caps in `yewo.yaml` for a journey test.
+
+## Slow down between actions
+
+`settle_time` sets the seconds Yewo waits between settlement observations. It
+accepts 0 to 5. Raise it for an app that animates slowly, so Yewo reads the
+finished screen rather than a transition.

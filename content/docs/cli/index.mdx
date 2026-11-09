@@ -1,32 +1,73 @@
 ---
-title: Overview
-description: What the Yewo CLI does and how it decides whether a test passed.
+title: Start here
+description: Pick the task you want to do with the Yewo CLI.
 ---
 
-Yewo looks at the same app screenshots a user sees. Visual models identify
-controls and locate where to tap, so tests do not depend on accessibility IDs,
-test IDs, or other app-specific selectors.
+Yewo operates your app the way a user does. It reads the screen, taps what it
+sees, and checks what happened. Your tests describe a journey in plain language,
+so they do not depend on accessibility IDs or test IDs.
 
-## What it does
-
-- Runs plain-language goals and journeys against Android and iOS builds.
-- Finds and interacts with visible controls without requiring test IDs.
-- Discovers a journey before generating evidence-grounded test scenarios.
-- Checks functional, security, and supported device-level outcomes.
-- Saves screenshots, actions, model calls, usage, and verdict evidence.
-- Masks declared secrets in stored text and redacts them from saved screenshots.
-- Produces JSON, HTML, Markdown, and JUnit reports for journey tests.
-
-## Who decides the verdict
-
-During a journey test, the agent that operates the app does not decide whether
-the test passed. After execution, a separate auditor compares the saved evidence
-with the expected outcomes.
-
-Only visible or measured evidence can prove an outcome. A planner's claim of
-completion is not sufficient evidence for a passing verdict.
+## New to Yewo
 
 <Cards>
-  <Card title="Quick start" href="/docs/cli/quick-start" />
-  <Card title="Run journey tests" href="/docs/cli/journey-tests" />
+  <Card
+    title="Quick start"
+    description="Install Yewo, prepare a project, and run your first goal."
+    href="/docs/cli/get-started/quick-start"
+  />
+  <Card
+    title="Choose your models"
+    description="Set the two models Yewo needs, and the API keys they need."
+    href="/docs/cli/get-started/models"
+  />
+</Cards>
+
+## Write and run tests
+
+<Cards>
+  <Card
+    title="Run journey tests"
+    description="Declare journeys in yewo.yaml and run them with yewo test."
+    href="/docs/cli/run-tests/journey-tests"
+  />
+  <Card
+    title="Read the verdicts"
+    description="Understand what passed, what failed, and what stayed unverified."
+    href="/docs/cli/run-tests/verdicts"
+  />
+  <Card
+    title="Read a test report"
+    description="Find out what happened in a run, and why a scenario got its verdict."
+    href="/docs/cli/run-tests/report"
+  />
+  <Card
+    title="Configure a project"
+    description="How Yewo finds yewo.yaml and which settings win."
+    href="/docs/cli/configure/project"
+  />
+  <Card
+    title="Use a password in a journey"
+    description="Give Yewo a test account password without leaking it into your report."
+    href="/docs/cli/configure/secrets"
+  />
+  <Card
+    title="Limit a run"
+    description="Cap how many steps a run takes and how long it lasts."
+    href="/docs/cli/configure/limits"
+  />
+</Cards>
+
+## Learn and look up
+
+<Cards>
+  <Card
+    title="How Yewo works"
+    description="The discover, generate, execute, audit pipeline."
+    href="/docs/cli/reference/how-it-works"
+  />
+  <Card
+    title="Command reference"
+    description="Every yewo command and what it does."
+    href="/docs/cli/reference/commands"
+  />
 </Cards>

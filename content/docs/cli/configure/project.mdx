@@ -1,0 +1,34 @@
+---
+title: Configure a project
+description: How Yewo resolves yewo.yaml and what it can declare.
+---
+
+Yewo finds the nearest `yewo.yaml` at or above the current directory. Settings can
+be declared for the whole project or overridden by a workflow or target.
+
+The configuration supports multiple workflows, journeys, target devices, declared
+values and secrets, security rules, coverage categories, actors, preconditions,
+model roles, execution budgets, and artifact settings.
+
+Models are the one area with two separate required keys, `model` and `grounder`.
+[Choose your models](/docs/cli/get-started/models) covers why, and which API keys each
+arrangement needs.
+
+## Precedence
+
+1. Command-line options.
+2. Target-level settings.
+3. Workflow-level settings.
+4. Project-level settings in `yewo.yaml`.
+
+## Reference schema
+
+[`yewo-schema.json`](https://github.com/yewohq/yewo/blob/master/yewo-schema.json)
+in the CLI repository describes the configuration as a JSON Schema, which is useful
+for editor completion.
+
+<Callout type="warn">
+  Treat the schema as a reference, not as the authoritative contract. Yewo maintains it by hand, and
+  it lags the loader. It still lists keys that the loader no longer accepts, and it does not yet
+  describe `grounder` or the `models` block. Where the two disagree, the loader is correct.
+</Callout>

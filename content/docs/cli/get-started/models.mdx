@@ -1,0 +1,136 @@
+---
+title: Choose your models
+description: How to set up the two models Yewo needs, and the API keys they need.
+---
+
+Yewo needs two models, not one. Set both in `yewo.yaml` before your first run.
+
+- A **semantic model** reads the screen and decides what to do next.
+- A **grounder** takes a description of an element and returns its coordinates.
+
+One model cannot do both jobs. A model that reasons well about a screenshot can
+still fail to point at the correct pixel. Yewo therefore keeps the two settings
+separate, and you must fill in each one.
+
+## 1. Pick a grounder
+
+Use a model trained for GUI grounding. The recommended model is **UI-TARS**.
+`yewo setup` writes `bytedance/ui-tars-1.5-7b` into a new project.
+
+You can reach UI-TARS through OpenRouter, or through any other route that LiteLLM
+resolves. The weights are open, so you can also run the model yourself.
+
+<Callout type="warn">
+  `yewo.yaml` has no field for a custom endpoint URL. To use your own deployment, make it reachable
+  through a LiteLLM model identifier.
+</Callout>
+
+## 2. Pick a semantic model
+
+Any model that reads images and follows instructions can do this job. Start with
+one model for all the reasoning work. You can split the roles later.
+
+## 3. Write both into `yewo.yaml`
+
+```yaml title="yewo.yaml"
+model: <provider>/<semantic-model>
+
+grounder:
+  model: <provider>/<grounding-model>
+  protocol: source_pixels
+```
+
+Set `protocol` to the coordinate space your grounding model returns:
+
+| Protocol          | Coordinates the model returns                         |
+| ----------------- | ----------------------------------------------------- |
+| `source_pixels`   | Pixel coordinates at the screenshot's own resolution. |
+| `normalized`      | Fractions of width and height, from 0 to 1.           |
+| `normalized_1000` | Fractions scaled to a 0-1000 integer grid.            |
+
+<Callout type="warn">
+  A wrong protocol does not fail the run. Yewo converts the numbers as you declared them and taps
+  the wrong place. Check your model's documentation.
+</Callout>
+
+If you leave out `grounder`, Yewo stops before it starts:
+
+```text
+The project needs grounder.model and grounder.protocol.
+A semantic model cannot be assumed to support visual grounding.
+```
+
+## 4. Add one key per provider
+
+Add a credential for every provider your `yewo.yaml` names. You need one key for
+each provider, not one key for each model.
+
+Yewo checks every credential before it starts any device work. A missing
+credential stops the run, and the error names the variable it wanted.
+
+### Two providers
+
+Put the semantic model and the grounder on different providers, and you need both
+keys:
+
+```yaml title="yewo.yaml"
+model: anthropic/claude-sonnet-4-5
+
+grounder:
+  model: openrouter/bytedance/ui-tars-1.5-7b
+  protocol: source_pixels
+```
+
+```dotenv title=".env"
+ANTHROPIC_API_KEY=your_key_here
+OPENROUTER_API_KEY=your_key_here
+```
+
+Expect this to be the common case. Most direct providers serve strong semantic
+models but no grounding model.
+
+### One provider
+
+An aggregator can serve both models, and then one key covers the project:
+
+```yaml title="yewo.yaml"
+model: openrouter/deepseek/deepseek-v4.1-flash
+
+grounder:
+  model: openrouter/bytedance/ui-tars-1.5-7b
+  protocol: source_pixels
+```
+
+## Use a different model for one job
+
+`model` covers every reasoning job. To change one job, name it under `models`:
+
+```yaml title="yewo.yaml"
+model: <provider>/<semantic-model>
+
+models:
+  auditor: <provider>/<stronger-model>
+  screen_analyzer: <provider>/<cheaper-model>
+```
+
+| Key               | Change it to                                  |
+| ----------------- | --------------------------------------------- |
+| `planner`         | Choose the next action differently.           |
+| `auditor`         | Spend more on the verdict decision.           |
+| `recovery`        | Change how Yewo recovers after a failed step. |
+| `action_verifier` | Change how Yewo checks that an action worked. |
+| `screen_analyzer` | Spend less on reading each screen.            |
+| `replay_preparer` | Change how Yewo prepares a saved path.        |
+| `test_designer`   | Spend more on scenario generation.            |
+
+To turn off reasoning for one job, use the longer form:
+
+```yaml title="yewo.yaml"
+models:
+  auditor:
+    model: <provider>/<stronger-model>
+    reasoning: disabled
+```
+
+`reasoning` accepts `provider_default` or `disabled`. Some providers reject an
+explicit thinking budget, so Yewo offers only these two settings.
