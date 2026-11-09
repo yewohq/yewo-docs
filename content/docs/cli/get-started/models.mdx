@@ -14,11 +14,13 @@ separate, and you must fill in each one.
 
 ## 1. Pick a grounder
 
-Use a model trained for GUI grounding. The recommended model is **UI-TARS**.
-`yewo setup` writes `bytedance/ui-tars-1.5-7b` into a new project.
+Use a model trained for GUI grounding. The
+[ScreenSpot-Pro leaderboard](https://gui-agent.github.io/grounding-leaderboard/)
+scores these models on professional, high-resolution screens. Choose one from
+there that your provider serves.
 
-You can reach UI-TARS through OpenRouter, or through any other route that LiteLLM
-resolves. The weights are open, so you can also run the model yourself.
+`yewo setup` writes a grounder into a new project so that the starter
+configuration runs. Replace it with the model you choose.
 
 <Callout type="warn">
   `yewo.yaml` has no field for a custom endpoint URL. To use your own deployment, make it reachable
@@ -74,10 +76,10 @@ Put the semantic model and the grounder on different providers, and you need bot
 keys:
 
 ```yaml title="yewo.yaml"
-model: anthropic/claude-sonnet-4-5
+model: anthropic/<semantic-model>
 
 grounder:
-  model: openrouter/bytedance/ui-tars-1.5-7b
+  model: openrouter/<grounding-model>
   protocol: source_pixels
 ```
 
@@ -94,10 +96,10 @@ models but no grounding model.
 An aggregator can serve both models, and then one key covers the project:
 
 ```yaml title="yewo.yaml"
-model: openrouter/deepseek/deepseek-v4.1-flash
+model: openrouter/<semantic-model>
 
 grounder:
-  model: openrouter/bytedance/ui-tars-1.5-7b
+  model: openrouter/<grounding-model>
   protocol: source_pixels
 ```
 
