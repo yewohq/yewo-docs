@@ -5,14 +5,12 @@ Yewo Cloud, deployed as a static export to Cloudflare Workers at
 [docs.tryyewo.dev](https://docs.tryyewo.dev).
 
 ```bash
-npm run dev          # http://localhost:3000
-npm run build        # static export into out/
-npm run preview      # serve out/ through the Worker runtime
-npm run deploy       # build, then wrangler deploy
-npm run typecheck
-npm run lint
-npm run format:check
+./start.sh           # install if needed, then serve on localhost:3000
+./start.sh check     # typecheck, lint, formatting
+./start.sh --help    # every task
 ```
+
+`start.sh` wraps the npm scripts, which CI calls directly.
 
 ## Where the content lives
 
