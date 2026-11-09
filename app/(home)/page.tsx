@@ -1,4 +1,9 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+}
 
 /**
  * The docs subdomain has no marketing surface of its own -- tryyewo.dev owns
