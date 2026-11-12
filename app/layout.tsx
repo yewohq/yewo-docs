@@ -84,6 +84,13 @@ export default function Layout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en" className={fontVariables} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen font-sans antialiased">
+        {/* First in the body so an agent reading the top of the document finds it before chrome. */}
+        <p className="sr-only">
+          For AI agents: this site serves a Markdown version of every page at the same path with a
+          .md extension, such as {DOCS_URL}/docs/cli.md, or from the page URL itself with an Accept:
+          text/markdown request header. Every page is indexed at{' '}
+          <a href="/llms.txt">{DOCS_URL}/llms.txt</a>.
+        </p>
         <Provider>{children}</Provider>
       </body>
     </html>

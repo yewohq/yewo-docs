@@ -1,12 +1,11 @@
 import { createGetUrl } from 'fumadocs-core/source'
+import { DOCS_URL } from './site.mjs'
 
 export const appName = 'Yewo'
 export const docsRoute = '/docs'
 export const docsImageRoute = '/og/docs'
-export const docsContentRoute = '/llms.mdx/docs'
 
-/** Canonical origin. Absolute URLs in metadata need it at build time. */
-export const DOCS_URL = process.env.NEXT_PUBLIC_DOCS_URL ?? 'https://docs.tryyewo.dev'
+export { DOCS_URL }
 
 export const SITE_URL = 'https://tryyewo.dev'
 
@@ -28,12 +27,9 @@ export const docsRepo = {
   branch: 'master',
 }
 
-const getContentUrl = createGetUrl(docsContentRoute)
-
-export function getPageMarkdownUrl(page: { slugs: string[]; locale?: string }) {
-  const segments = [...page.slugs, 'content.md']
-
-  return { segments, url: getContentUrl(segments, page.locale) }
+/** The page's Markdown twin, written by scripts/generate-markdown.mjs. */
+export function getPageMarkdownUrl(page: { url: string }) {
+  return `${page.url}.md`
 }
 
 const getImageUrl = createGetUrl(docsImageRoute)

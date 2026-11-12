@@ -1,12 +1,14 @@
 name = "yewo-docs"
+main = "worker/index.ts"
 compatibility_date = "2026-10-29"
 
-# Assets-only: a static export with no server behaviour, so there is no Worker
-# script to run in front of it. yewo-site needs one for its campaign redirects;
-# this does not.
+# run_worker_first puts the Worker in front of the asset store rather than
+# behind it, where content negotiation would never see a request.
 [assets]
 directory = "./out"
+binding = "ASSETS"
 not_found_handling = "404-page"
+run_worker_first = true
 
 [[routes]]
 pattern = "docs.tryyewo.dev"
